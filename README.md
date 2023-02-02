@@ -17,7 +17,7 @@ targets = {
       {
         name  = "instance-slave-switcher-on"
         arn   = module.lambda.lambda_function_arn
-        input = jsonencode({"action": "start", "TagKey": "Role", "TagValue": "slave"})
+        input = jsonencode({"action": "start", "Tags": {"Role": "master", "Name": "fpla-jmeter-master-ec2"})
       }
     ]
   }
@@ -34,5 +34,10 @@ terraform init
 terraform apply
 ```
 
+$ To use locally
+
+```
+python3 ./lambda.py --tags Role=master Name=fpla-jmeter-master-ec2 --profile foul-play
+```
 
 
