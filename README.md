@@ -24,6 +24,7 @@ targets = {
 ```
 
 # Deployment
+
 * To build the Lambda package, run the command.
 ```
 make build 
@@ -34,10 +35,18 @@ terraform init
 terraform apply
 ```
 
-$ To use locally
+# To use locally
+
+* You can run the lambda py locally to stop instance that has explicit tags(or start)
 
 ```
-python3 ./lambda.py --tags Role=master Name=fpla-jmeter-master-ec2 --profile foul-play
+python3 ./lambda.py --tags Role=master Env=dev --profile foul-play
 ```
 
-
+### Script arguments
+```
+| Name         | Description                                 | Default    |
+|--------------|---------------------------------------------|------------|
+| --profile    | AWS profile to get access to AWS            | ""         |
+| --tags       | Tags to filter instances(could be multiple) | None       |
+```
