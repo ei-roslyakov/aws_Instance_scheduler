@@ -1,20 +1,20 @@
 module "lambda" {
-  source  = "terraform-aws-modules/lambda/aws"
-  
+  source = "terraform-aws-modules/lambda/aws"
+
   function_name = "instance-switcher-func"
   description   = "The lambda function to start the Sync EC2 Instance"
   handler       = "lambda.handler"
   runtime       = "python3.8"
 
-  timeout       = "10"
-    publish = true
+  timeout                = "10"
+  publish                = true
   create_package         = false
   local_existing_package = "lambda_package/instance-switcher-func.zip"
 
   attach_policies    = true
-    create_role        = true
-    number_of_policies = 1
-    policies           = [module.iam_policy.policy_name_with_arn["ec2-instance-switcher-policy"]]
+  create_role        = true
+  number_of_policies = 1
+  policies           = [module.iam_policy.policy_name_with_arn["ec2-instance-switcher-policy"]]
 
   allowed_triggers = {
     Eventbridge_On_Slave = {
@@ -39,9 +39,9 @@ module "lambda" {
 module "eventbridge_on" {
   source = "terraform-aws-modules/eventbridge/aws"
 
-  create_bus = false
+  create_bus  = false
   create_role = true
-  role_name = "instance-switcher-on"
+  role_name   = "instance-switcher-on"
 
   rules = {
     "instance-slave-switcher-on" = {
@@ -67,37 +67,37 @@ module "eventbridge_on" {
       {
         name  = "instance-slave-switcher-on"
         arn   = module.lambda.lambda_function_arn
-        input = jsonencode({"action": "start", "TagKey": "Role", "TagValue": "slave"})
+        input = jsonencode({ "action" : "start", "TagKey" : "Role", "TagValue" : "slave" })
       }
     ]
     "instance-slave-switcher-off" = [
       {
         name  = "instance-slave-switcher-off"
         arn   = module.lambda.lambda_function_arn
-        input = jsonencode({"action": "stop", "TagKey": "Role", "TagValue": "slave"})
+        input = jsonencode({ "action" : "stop", "TagKey" : "Role", "TagValue" : "slave" })
       }
     ]
     "instance-master-switcher-on" = [
       {
         name  = "instance-master-switcher-on"
         arn   = module.lambda.lambda_function_arn
-        input = jsonencode({"action": "start", "TagKey": "Role", "TagValue": "master"})
+        input = jsonencode({ "action" : "start", "TagKey" : "Role", "TagValue" : "master" })
       }
     ]
     "instance-master-switcher-off" = [
       {
         name  = "instance-master-switcher-off"
         arn   = module.lambda.lambda_function_arn
-        input = jsonencode({"action": "stop", "TagKey": "Role", "TagValue": "master"})
+        input = jsonencode({ "action" : "stop", "TagKey" : "Role", "TagValue" : "master" })
       }
     ]
   }
 }
 
 module "iam_policy" {
-    source  = "git@github.com:ei-roslyakov/terraform-modules.git//aws_iam_policy"
+  source = "git@github.com:ei-roslyakov/terraform-modules.git//aws_iam_policy"
 
-    policies = {
+  policies = {
     "ec2-instance-switcher-policy" = {
       name        = "ec2-instance-switcher-policy"
       policy_path = "./policies/instance-switcher.json"

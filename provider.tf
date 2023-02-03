@@ -1,9 +1,9 @@
 provider "aws" {
-  profile                 = ""
-  region                  = ""
+  profile = ""
+  region  = ""
   default_tags {
-   tags = {
-     Terraform   = "true"
+    tags = {
+      Terraform = "true"
     }
   }
 }
