@@ -8,7 +8,7 @@ This project is created to power ON and power OFF AWS EC2 instances by cron usin
 * Configured AWS profile with correct access(IAM,S3,Lambda,EventBridge)
 * Make
 
-To filter which instance should be triggered, AWS lambda uses a tag, you can change it in Terraform code EventBridge module (TagKey\TagValue).
+To filter which instance should be triggered, AWS lambda uses a tag, you can change it in Terraform code EventBridge module (input ... Tags: {}).
 As well you can define the action which AWS Lambda should perform (start\stop)
 
 ```hcl
