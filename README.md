@@ -29,7 +29,7 @@ targets = {
 ```
 make build 
 ```
-* To deploy the Terraform code, you have to modify the provider.tf and backend.tf files. Please put the correct value for the profile, region, bucket name, etc. After this you will be able to run command to deploy the infrastructure.
+* To deploy the Terraform code, you have to modify the provider.tf and backend.tf files. Please put the correct value for the profile, region, bucket name, etc. After this you will be able to run command to deploy the infrastructure. Please change the EventBridge module rules, targets and Lambda allowed_triggers.
 ```
 terraform init
 terraform apply
